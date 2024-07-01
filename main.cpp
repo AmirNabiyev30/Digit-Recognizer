@@ -1,6 +1,8 @@
 #include <iostream>
+#include <vector>
 
+using std::cout, std::endl;
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    cout<<"This is the beginning of the neural network project" <<endl;
     return 0;
 }
