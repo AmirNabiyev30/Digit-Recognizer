@@ -13,10 +13,19 @@ int main() {
     }
     else{
         cout<<"The file opened"<<endl;
-        u_int64_t y;
-        cout<<sizeof(y)<<endl;
-        training_data.read(reinterpret_cast<char*>(&y),sizeof(y));
+        uint32_t x =  1769055902;
+        uint32_t y = 0;
+
+        for(int i = 0 ;i <= 3;i++) {
+            y = y | (x >> (i * 8) & 0xFF) << (3 - i) * 8;
+        }
+
         cout<<y<<endl;
+
+
+
+
+
     }
 
     return 0;
