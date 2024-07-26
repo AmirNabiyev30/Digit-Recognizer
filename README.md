@@ -5,5 +5,13 @@ With this readme I am going to attempt to go into detail with the process of bui
 
 READING THE DATA
 
-Using the MNIST dataset seems challenging at first and will require learnign extra bits of knowledge about binary and C++ in general.
+Using the MNIST dataset seems challenging at first and will require learning extra bits of knowledge about binary and C++ in general.
+
+Things to note is that the file is in little endian which basically means that the binary will be read from least significant bit to most significant bit. However my computer and many other computer operate in big endian which means we will need to convert the endianess. This is not that difficult and there are many videos online on how to do this. 
+
+Once we can covert the endianess with a simple function we can begin to read the data. We need use the ifstream libary to be able to open the binary files and actually read from them. 
+
+Once we craete the file objects we need to open in binary mode and open them with the purpose of reading the file.
+
+Now that we can read the binary files we have to be specific in what to read and how much
 
