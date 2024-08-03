@@ -14,6 +14,14 @@ uint32_t convertBEtoLE(uint32_t x){
 
 }
 
+uint32_t read_32int( uint32_t x, std::ifstream& file){
+    //assuming file is open
+
+    file.read(reinterpret_cast<char*>(&x), sizeof(x));
+    x = convertBEtoLE(x);
+    return x;
+
+}
 
 int main() {
     //creating the files variables
@@ -40,9 +48,13 @@ int main() {
     cout<<"Both files opened without issues\n";
 
     //Going to read the magic numbers(signatures) of both files
-    uint32_t magicImgTrain, magicLabTrain, magicImgTest, magicLabTest;
+    uint32_t magicImgTrain = 0, magicLabTrain = 0, magicImgTest = 0, magicLabTest = 0;
 
-    training_images.read(reinterpret_cast<char*>(&magicImgTrain),sizeof(magicImgTrain));
+    magicImgTrain = read_32int(magicImgTrain,training_images);
+    magicLabTrain = read_32int(magicLabTrain,training_labels);
+    magicImgTest = read_32int(magicImgTest,test_images);
+    magicLabTest = read_32int(magicLabTest,test_labels);
+    /*training_images.read(reinterpret_cast<char*>(&magicImgTrain),sizeof(magicImgTrain));
 
     training_labels.read(reinterpret_cast<char*>(&magicLabTrain),sizeof(magicLabTrain));
 
@@ -55,7 +67,7 @@ int main() {
     magicImgTrain = convertBEtoLE(magicImgTrain);
     magicImgTest = convertBEtoLE(magicImgTest);
     magicLabTrain = convertBEtoLE(magicLabTrain);
-
+*/
 
 
     cout<<"The magic number we read is: "<<magicImgTest << endl;
