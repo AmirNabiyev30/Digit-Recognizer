@@ -24,7 +24,7 @@ uint32_t read_32int( uint32_t x, std::ifstream& file){
 }
 
 int main() {
-    //creating the files variables
+    //creating the file variables
     std::ifstream training_images,training_labels, test_labels, test_images;
     //opening the files in binary and for reading NOT WRITING
     training_images.open("train-images.idx3-ubyte",std::ios::binary | std::ios::in);
@@ -49,44 +49,60 @@ int main() {
 
     //Going to read the magic numbers(signatures) of both files
     uint32_t magicImgTrain = 0, magicLabTrain = 0, magicImgTest = 0, magicLabTest = 0;
-
+    //read the magic numbers from their associated files
     magicImgTrain = read_32int(magicImgTrain,training_images);
     magicLabTrain = read_32int(magicLabTrain,training_labels);
     magicImgTest = read_32int(magicImgTest,test_images);
     magicLabTest = read_32int(magicLabTest,test_labels);
-    /*training_images.read(reinterpret_cast<char*>(&magicImgTrain),sizeof(magicImgTrain));
 
-    training_labels.read(reinterpret_cast<char*>(&magicLabTrain),sizeof(magicLabTrain));
+    //printed the magic numbers of the files
+    cout<<"The magic numbers of the files are "<< magicLabTrain<<", "<< magicLabTest
+    << ", "<<magicImgTrain << ", "<< magicImgTest<<"\n";
 
-    test_images.read(reinterpret_cast<char*>(&magicImgTest),sizeof(magicImgTest));
+    uint32_t numberOfImages = 0;
+    numberOfImages = read_32int(numberOfImages, training_images);
+    cout<<"The number of images in the training file is "<<numberOfImages<<endl;
 
-    test_labels.read(reinterpret_cast<char*>(&magicLabTest), sizeof(magicLabTest));
+    uint32_t rows = 0, cols = 0;
+    rows = read_32int(rows,training_images);
+    cols = read_32int(cols,training_images);
+    cout<<"The number of rows and columns for each picture is " << rows<<" and "<<cols<<endl;
+
+    uint8_t image[28][28];
+    for(int i = 0; i <28;i++){
+        for(int j = 0;j<28;j++){
+            uint8_t test = 0;
+            training_images.read(reinterpret_cast<char*>(&test),sizeof(test));
+
+            image[i][j] = test;
+
+        }
 
 
-    magicLabTest = convertBEtoLE(magicLabTest);
-    magicImgTrain = convertBEtoLE(magicImgTrain);
-    magicImgTest = convertBEtoLE(magicImgTest);
-    magicLabTrain = convertBEtoLE(magicLabTrain);
-*/
+    }
 
-
-    cout<<"The magic number we read is: "<<magicImgTest << endl;
-
-    cout<<"The magic number we read is: "<<magicImgTrain<<endl;
-
-    cout<<"The magic number we read is: "<<magicLabTest<<endl;
-
-    cout<<"The magic number we read is: "<< magicLabTrain<<endl;
-
-
-    if(magicImgTest == 2051){
-        cout<<"We successfully read the magic number from this file\n";
+    for(int i = 0;i<28;i++){
+        for(int j = 0;j<28;j++){
+            if(image[i][j] == 0){
+                cout<<0<<" ";
+            }
+            else
+                cout<<1<<" ";
+        }
+        cout<<endl;
     }
 
 
 
 
+
+
+
+
+//this closes all the dataset files
     training_images.close();
     training_labels.close();
+    test_images.close();
+    test_labels.close();
     return 0;
 }
